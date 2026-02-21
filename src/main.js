@@ -413,7 +413,7 @@ const MAX_PITCH = Math.PI / 2.5;
 const MAX_ROLL = Math.PI * 0.8;
 const ROLL_DAMPING = 0.97;
 const PITCH_DAMPING = 0.97;
-const GROUND_FRICTION = 0.92;
+const GROUND_FRICTION = 0.998;
 const GROUND_ANGLE_DAMPING = 0.9;
 const CAMERA_LERP = 0.01;      // lower = smoother camera
 
@@ -430,7 +430,7 @@ window.addEventListener('keyup', (e) => {
 
 // ─── Camera ──────────────────────────────────────────────────────────────────
 
-const cameraOffset = new THREE.Vector3(0, 3, 18); // behind & above
+const cameraOffset = new THREE.Vector3(-18, 3, 0); // behind & above
 const cameraTarget = new THREE.Vector3();
 const cameraCurrent = new THREE.Vector3();
 
