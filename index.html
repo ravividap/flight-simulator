@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Simulator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #000;
+        overflow: hidden;
+        font-family: 'Courier New', monospace;
+      }
+
+      #canvas-container {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      #hud {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        color: #00ff88;
+        text-shadow: 0 0 8px #00ff88;
+      }
+
+      #hud-top-left {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      #hud-top-right {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 14px;
+        line-height: 1.8;
+        text-align: right;
+      }
+
+      #hud-bottom {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 13px;
+        text-align: center;
+        color: rgba(0, 255, 136, 0.7);
+      }
+
+      #attitude-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+      }
+
+      #attitude-indicator canvas {
+        border-radius: 50%;
+        border: 2px solid #00ff88;
+        box-shadow: 0 0 10px #00ff88;
+      }
+
+      #crosshair {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+      }
+
+      #crosshair::before,
+      #crosshair::after {
+        content: '';
+        position: absolute;
+        background: rgba(0, 255, 136, 0.6);
+      }
+
+      #crosshair::before {
+        width: 2px;
+        height: 20px;
+        left: 9px;
+        top: 0;
+      }
+
+      #crosshair::after {
+        width: 20px;
+        height: 2px;
+        top: 9px;
+        left: 0;
+      }
+
+      #stall-warning {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) translateY(-80px);
+        color: #ff4444;
+        text-shadow: 0 0 10px #ff4444;
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 4px;
+        display: none;
+        animation: blink 0.5s infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container"></div>
+
+    <div id="hud">
+      <div id="hud-top-left">
+        <div>ALT: <span id="altitude">0</span> m</div>
+        <div>SPD: <span id="speed">0</span> km/h</div>
+        <div>HDG: <span id="heading">0</span>°</div>
+        <div>THR: <span id="throttle">0</span>%</div>
+        <div>VSI: <span id="vsi">0</span> m/s</div>
+      </div>
+
+      <div id="hud-top-right">
+        <div>PITCH: <span id="pitch">0</span>°</div>
+        <div>ROLL: <span id="roll">0</span>°</div>
+        <div>G-FORCE: <span id="gforce">1.0</span>g</div>
+      </div>
+
+      <div id="stall-warning">⚠ STALL ⚠</div>
+
+      <canvas id="attitude-indicator" width="80" height="80"></canvas>
+
+      <div id="crosshair"></div>
+
+      <div id="hud-bottom">
+        W/S – Pitch &nbsp;|&nbsp; A/D – Roll &nbsp;|&nbsp; Q/E – Rudder &nbsp;|&nbsp; ↑/↓ – Throttle &nbsp;|&nbsp; SPACE – Reset
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
