@@ -52,7 +52,8 @@ const skyMat = new THREE.ShaderMaterial({
     }
   `,
 });
-scene.add(new THREE.Mesh(skyGeo, skyMat));
+const skyMesh = new THREE.Mesh(skyGeo, skyMat);
+scene.add(skyMesh);
 
 // ─── Lighting ───────────────────────────────────────────────────────────────
 
@@ -259,12 +260,6 @@ function buildAirplane() {
   const nose = new THREE.Mesh(noseGeo, bodyMat);
   nose.position.x = 3.8;
   plane.add(nose);
-
-  // Cockpit glass
-  const cockpitGeo = new THREE.SphereGeometry(0.45, 8, 6, 0, Math.PI * 2, 0, Math.PI * 0.5);
-  const cockpit = new THREE.Mesh(cockpitGeo, glassMat);
-  cockpit.position.set(1.2, 0.5, 0);
-  plane.add(cockpit);
 
   // Main wings
   const wingGeo = new THREE.BoxGeometry(0.2, 0.08, 8);
@@ -653,6 +648,9 @@ function update() {
     1 - Math.pow(CAMERA_LERP, dt)
   );
   camera.lookAt(cameraTarget);
+
+  // Keep sky centered on camera so it never clips at high altitude
+  skyMesh.position.copy(camera.position);
 
   // ── HUD Update ────────────────────────────────────────────────────────────
 
